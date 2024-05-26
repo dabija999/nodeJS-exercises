@@ -1,6 +1,6 @@
-# Node.js Script for Copying Specific Image Files
+# Node.js Script for Copying Specific Files
 
-This script is designed to copy image files from a specified source directory to a destination directory within a Node.js environment. It allows users to specify the types of image files to copy via command-line arguments and supports ignoring certain folders during the copy process. The script also handles duplicate files by renaming them with a timestamp to prevent overwriting.
+This script is designed to copy  files from a specified source directory to a destination directory within a Node.js environment. It allows users to specify the types of files to copy via command-line arguments and supports ignoring certain folders during the copy process. The script also handles duplicate files by renaming them with a timestamp to prevent overwriting.
 
 ## Prerequisites
 
@@ -13,16 +13,16 @@ No installation is required. This script uses only the standard `fs/promises` an
 
 ## Usage
 
-Save the script as `copyImages.js` in your project directory. Run it using Node.js from the terminal, specifying the file extensions of the images you wish to copy and any folders to ignore:
+Save the script as `copy.js` in your project directory. Run it using Node.js from the terminal, specifying the file extensions of the files you wish to copy and any folders to ignore:
 
 ```
-node copyImages.js png temp
+node copy.js png temp
 ```
 
 **Use quotation marks when specifying multiple extensions/folders to ignore**
 
 ```
-node copyImages.js "jpg png" "temp cache"
+node copy.js "jpg png" "temp cache"
 ```
 
 This command will copy `.jpg` and `.png` files from the current working directory to a subdirectory named `destination`, skipping any files in folders named `temp` or `cache`.
@@ -49,4 +49,4 @@ Upon completion, the script prints a summary of the operation, including the tot
 
 ## Conclusion
 
-This script offers a straightforward method for copying specific types of image files between directories, with features for handling duplicates and ignoring specified folders. It's useful for organizing image collections or backing up specific file types.
+This script offers a straightforward method for copying specific types of files between directories, with features for handling duplicates and ignoring specified folders. It's useful for organizing files collections or backing up specific file types.
