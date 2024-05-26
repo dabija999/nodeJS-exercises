@@ -1,15 +1,21 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-(async () => {
-  const extensions = ['.jpg', '.img'];
+(async() => {
+  const args = process.argv.slice(2);
+  const extensions = args.map(arg => '.' + arg);
+  
   let copiedImageFileNames = [];
-  let erroredFiles = []
-
+  let erroredFiles = [];
+  
   const locationDir = path.join(process.cwd());
   const destinationDir = path.join(process.cwd(), 'destination');
   let numberOfCopies = 0;
 
+  if (args.length === 0) {
+    throw new Error('Please provide file type');
+  }
+  
   try {
     await fs.access(destinationDir);
     console.log(`Directory already exists: ${destinationDir}`);
@@ -24,7 +30,7 @@ const path = require('path');
       throw new Error('Error creating destination folder, not ENOENT error', err);
     }
   }
-
+  
   const copyImages = async (dir, extensions) => {
     try {
       const files = await fs.readdir(dir);
@@ -45,7 +51,7 @@ const path = require('path');
                   numberOfCopies++;
                   console.log('Finished copying file', filePath);
                 } catch (err) {
-                  erroredFiles.push(file)
+                  erroredFiles.push(file);
                   console.error(`Error copying duplicate file: ${file}`, err);
                 }
               } else {
@@ -66,8 +72,7 @@ const path = require('path');
           }
         }
       }
-    }
-    catch (err) {
+    } catch (err) {
       throw new Error('General copy images function error', err);
     }
   };
@@ -82,5 +87,4 @@ const path = require('path');
   } catch (err) {
     console.error('Error during copy operation:', err);
   }
-
 })()
