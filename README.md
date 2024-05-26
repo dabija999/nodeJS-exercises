@@ -1,6 +1,6 @@
-# Node.js Script for Copying Images Based on Extensions
+# Node.js Script for Copying Specific Image Files
 
-This script is designed to copy image files from one directory to another within a Node.js environment. It dynamically determines the file extensions to copy based on command-line arguments provided by the user. The script also handles duplicates by appending a timestamp to the filename to avoid overwriting existing files. Additionally, it logs errors encountered during the process.
+This script is designed to copy image files from a specified source directory to a destination directory within a Node.js environment. It allows users to specify the types of image files to copy via command-line arguments and supports ignoring certain folders during the copy process. The script also handles duplicate files by renaming them with a timestamp to prevent overwriting.
 
 ## Prerequisites
 
@@ -9,31 +9,33 @@ This script is designed to copy image files from one directory to another within
 
 ## Installation
 
-Ensure you have Node.js installed. This script does not require any external packages beyond the standard `fs/promises` and `path` modules that come with Node.js.
+No installation is required. This script uses only the standard `fs/promises` and `path` modules available in Node.js.
 
 ## Usage
 
-To run this script, save it as `copyImages.js` in your project directory. Execute it using Node.js with the desired file extensions as command-line arguments:
+Save the script as `copyImages.js` in your project directory. Run it using Node.js from the terminal, specifying the file extensions of the images you wish to copy and any folders to ignore:
 
 ```
-node copyImages.js jpg png
+node copyImages.js png temp
 ```
 
-This command tells the script to copy files with `.jpg` and `.png` extensions. Note that the script expects each extension to be prefixed with a dot (`.`).
+**Use quotation marks when specifying multiple extensions/folders to ignore**
+
+```
+node copyImages.js "jpg png" "temp cache"
+```
+
+This command will copy `.jpg` and `.png` files from the current working directory to a subdirectory named `destination`, skipping any files in folders named `temp` or `cache`.
 
 ## How It Works
 
-1. **Command-Line Arguments**: The script starts by parsing command-line arguments to determine which file extensions to copy.
-
-2. **Directory Setup**: It checks if the destination directory exists. If not, it creates the directory.
-
-3. **Copying Files**: The core functionality is encapsulated in the `copyImages` function. This function recursively searches through the source directory for files matching the specified extensions. For each found file:
-   - If the file is a directory, it calls itself recursively to handle nested directories.
-   - If the file matches the extension criteria, it checks if the file has been copied before. If so, it appends a timestamp to the filename to create a unique copy. Otherwise, it copies the file as is.
-
-4. **Error Handling**: The script includes robust error handling to manage issues such as access permissions, file existence, and other potential errors that may occur during the file copying process.
-
-5. **Logging**: Throughout the process, the script logs progress, including successful copies and any errors encountered, providing visibility into its operations.
+1. **Parsing Command-Line Arguments**: The script parses the command-line arguments to identify the file extensions to copy and any folders to ignore.
+2. **Directory Setup**: It checks if the destination directory exists; if not, it creates the directory.
+3. **Copying Process**:
+   - The script recursively searches through the source directory for files matching the specified extensions.
+   - Folders listed in the ignore list are skipped.
+   - Duplicates are detected by checking against a list of previously copied filenames; they are renamed with a timestamp to ensure uniqueness.
+4. **Error Handling and Logging**: The script logs the progress of file copies and reports any errors encountered, providing feedback on the operation's success or failure.
 
 ## Output
 
@@ -41,10 +43,10 @@ Upon completion, the script prints a summary of the operation, including the tot
 
 ## Customization
 
-- To change the target extensions, provide different arguments when running the script.
-- To adjust the source directory, modify the `locationDir` variable in the script.
-- To alter the destination directory, update the `destinationDir` variable accordingly.
+- To change the target extensions, modify the command-line arguments when running the script.
+- To adjust the source directory, the script currently defaults to the current working directory. Consider modifying the script to accept a source directory argument.
+- To alter the destination directory, the script sets the destination to a subdirectory named `destination`. You can change this by modifying the `destinationDir` variable in the script.
 
 ## Conclusion
 
-This script provides a flexible way to automate the process of copying specific types of image files from one directory to another, with built-in support for handling duplicates and logging errors.
+This script offers a straightforward method for copying specific types of image files between directories, with features for handling duplicates and ignoring specified folders. It's useful for organizing image collections or backing up specific file types.
