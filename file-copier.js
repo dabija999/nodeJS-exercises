@@ -2,8 +2,17 @@ const fs = require('fs/promises');
 const path = require('path');
 
 (async() => {
-  const args = process.argv.slice(2);
-  const extensions = args.map(arg => '.' + arg);
+  const args = process.argv.slice(2, 4);
+  let extensions = [];
+  let folderIgnoreList = [];
+  args.forEach((arg, i) => {
+    if (i === 0) {
+      extensions = arg.split(' ').map(argument => '.' + argument);
+    }
+    if (i === 1) {
+      folderIgnoreList = arg.split(' ');
+    }
+  });
   
   let copiedImageFileNames = [];
   let erroredFiles = [];
@@ -39,7 +48,11 @@ const path = require('path');
         const filePath = path.join(dir, file);
         const stats = await fs.stat(filePath);
         if (stats.isDirectory()) {
-          await copyImages(filePath, extensions);
+          if (folderIgnoreList.includes(file)) {
+            console.log(`Ignored folder: ${file}`)
+          } else {
+            await copyImages(filePath, extensions);
+          }
         } else {
           if (extensions.includes(path.extname(file))) {
             try {
