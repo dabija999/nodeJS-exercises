@@ -18,7 +18,8 @@ const path = require('path');
   let erroredFiles = [];
 
   const locationDir = path.join(process.cwd());
-  const destinationDir = path.join(process.cwd(), 'destination');
+  const destName = 'destination';
+  const destinationDir = path.join(process.cwd(), destName);
   let numberOfCopies = 0;
 
   if (args.length === 0) {
@@ -48,7 +49,7 @@ const path = require('path');
         const filePath = path.join(dir, file);
         const stats = await fs.stat(filePath);
         if (stats.isDirectory()) {
-          if (folderIgnoreList.includes(file) || file === 'destination') {
+          if (folderIgnoreList.includes(file) || file === destName) {
             console.log(`Ignored folder: ${file}`);
           } else {
             await copyImages(filePath, extensions);
