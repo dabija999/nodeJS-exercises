@@ -48,7 +48,7 @@ const path = require('path');
         const filePath = path.join(dir, file);
         const stats = await fs.stat(filePath);
         if (stats.isDirectory()) {
-          if (folderIgnoreList.includes(file)) {
+          if (folderIgnoreList.includes(file) || file === 'destination') {
             console.log(`Ignored folder: ${file}`)
           } else {
             await copyImages(filePath, extensions);
